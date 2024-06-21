@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
+                <div class="card-body">
+                    <h1 class="card-title">{{ book.title }}</h1>
+                    <p class="card-text">{{ book.description }}</p>
+                    <p class="card-text"><strong>Borrowing Price: </strong>${{ book.borrowing_price }}</p>
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+                    <a href="{% url 'borrow_book' book.id %}" class="btn btn-primary">Borrow</a>
+                </div>
+                <button type="button" class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#reviewsModal">
+                    Reviews
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="reviewsModal" tabindex="-1" aria-labelledby="reviewsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewsModalLabel">Reviews for {{ book.title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    {% for review in reviews %}
+                    <li>
+                        <p>Rating: {{ review.rating }}</p>
+                        <p>Comment: {{ review.comment }}</p>
+                        <p>By: {{ review.user.username }}</p>
+                        <p>Created At: {{ review.created_at }}</p>
+                    </li>
+                    {% empty %}
+                    <li>No reviews yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

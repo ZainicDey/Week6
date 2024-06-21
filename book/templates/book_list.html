@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<ul>
+    <div class="container">
+        <div class="row">
+            <h1>Books</h1>
+            <form method="get" class="m-1">
+                <select name="category_id">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <button class ="btn btn-info"type="submit">Filter</button>
+            </form>
+            {% for book in books %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ book.image.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text">{{ book.description|truncatechars_html:200 }}</p>
+                        <p class="text-danger">Borrowing Price: ${{ book.borrowing_price }}</p>
+                        <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</ul>
+{% endblock content %}
+
+
