@@ -3,3 +3,4 @@ Django
 django-crispy-forms
 pillow
 pipenv
+dj_database_url
